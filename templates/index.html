@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Translator App</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Welcome to this Translator application</h1>
+
+    <button onclick="startRecording()">Record</button>
+
+    <h3>Detected Text:</h3>
+    <div id="detectedText"></div>
+
+    <form method="POST" action="/">
+        <label>Translate to: </label>
+        <select name="language">
+            <option value="fr">French</option>
+            <option value="es">Spanish</option>
+            <option value="de">German</option>
+            <option value="hi">Hindi</option>
+            <option value="zh">Chinese</option>
+        </select>
+        <button type="submit">Translate</button>
+    </form>
+
+    <h3>Translation Result:</h3>
+    <div id="translatedText">{{ translated_text or '' }}</div>
+
+    <script>
+        function startRecording() {
+            fetch('/rec')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('detectedText').innerText = data.detected_text || 'No text detected';
+            })
+            .catch(err => {
+                alert('Error recording audio');
+                console.error(err);
+            });
+        }
+    </script>
+</body>
+</html>
+
