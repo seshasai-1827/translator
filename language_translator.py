@@ -10,7 +10,7 @@ def record():
     try:
         with speech_recognition.Microphone() as mic:
             recognizer.adjust_for_ambient_noise(mic,duration = 0.1)
-            audio = recognizer.listen(mic)
+            audio = recognizer.listen(mic, timeout=3, phrase_time_limit=15)
             text = recognizer.recognize_google(audio)
             text = text.lower()
             return text
